@@ -90,6 +90,7 @@ class CostumersController extends Controller {
      */
     public function edit($id) {
         $costumer = $this->costumer->find($id);
+        //dd($costumer->martialStatus->description);
         $costumer->active = ($costumer->active == 1);
         $title = 'Editar cliente: ' . $costumer->name;
         $costumer->image = !empty($costumer->image) ? $costumer->image : 'default.png';

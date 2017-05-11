@@ -7,12 +7,14 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddColumnExtensionCostumersTable' => $baseDir . '/database/migrations/2017_05_10_182753_add_column_extension_costumers_table.php',
+    'AddMartialStatusColumnOnCostumersTable' => $baseDir . '/database/migrations/2017_05_11_194157_add_martial_status_column_on_costumers_table.php',
     'AddTimestampsCostumersTable' => $baseDir . '/database/migrations/2017_05_10_183315_add_timestamps_costumers_table.php',
     'AllowNullExtensionCostumersTable' => $baseDir . '/database/migrations/2017_05_10_185727_allow_null_extension_costumers_table.php',
     'AlterColumnExtensionCostumersTable' => $baseDir . '/database/migrations/2017_05_11_111354_alter_column_extension_costumers_table.php',
     'AlterCostumersTable' => $baseDir . '/database/migrations/2017_05_10_141642_alter_costumers_table.php',
     'AlterNamePhotoColumnCostumersTable' => $baseDir . '/database/migrations/2017_05_10_182603_alter_name_photo_column_costumers_table.php',
     'AlterPhotoCostumersTable' => $baseDir . '/database/migrations/2017_05_10_173200_alter_photo_costumers_table.php',
+    'AlteraMartialStatusColumnOnCostumersTable' => $baseDir . '/database/migrations/2017_05_11_201747_altera_martial_status_column_on_costumers_table.php',
     'CreateCustomersTable' => $baseDir . '/database/migrations/2017_05_10_135108_create_customers_table.php',
     'CreateMartialStatusTable' => $baseDir . '/database/migrations/2017_05_11_191005_create_martial_status_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
