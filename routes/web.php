@@ -18,3 +18,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::resource('/costumers', 'CostumersController');
 Route::resource('/users', 'UsersController');
+Route::resource('/posts', 'PostsController');
