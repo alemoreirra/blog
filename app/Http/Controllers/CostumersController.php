@@ -23,10 +23,28 @@ class CostumersController extends Controller {
      * 
      * @return type
      */
-    public function index() {
-        $costumers = $this->costumer->paginate($this->totalPage);
+    public function index(Request $request) {
+
         $title = 'Listagem de Clientes';
-        return view('costumers.index', compact('title', 'costumers'));
+        $imagePath = '/storage/costumer';
+        $costumers = null;
+        $where = [];
+        if (!empty($request->all())) {
+            if (!empty($request->name)) {
+                array_push($where, ['name', 'like', '%' . $request->name . '%']);
+            }
+            if (!empty($request->last_name)) {
+                array_push($where, ['last_name', 'like', '%' . $request->last_name . '%']);
+            }
+            if (!empty($request->email)) {
+                array_push($where, ['email', 'like', '%' . $request->email . '%']);
+            }
+            if ($request->active != '') {
+                array_push($where, ['active', $request->active . '%']);
+            }
+        }
+        $costumers = $this->costumer->where($where)->paginate($this->totalPage);
+        return view('costumers.index', compact('title', 'costumers', 'imagePath'));
     }
 
     /**
@@ -47,7 +65,6 @@ class CostumersController extends Controller {
     public function store(Request $request) {
         $dataForm = $request->except(['_token']);
         $dataForm['active'] = (Input::has('active'));
-
         $insert = $this->costumer->create($dataForm);
         if ($insert) {
             return redirect()->route('costumers.index');
@@ -60,7 +77,10 @@ class CostumersController extends Controller {
      * @param type $id
      */
     public function show($id) {
-        //
+        $costumer = $this->costumer->find($id);
+        $costumer->image = !empty($costumer->image) ? $costumer->image : 'default.png';
+        $imagePath = '/storage/costumer/' . $costumer->image;
+        return view('costumers.show', compact('costumer', 'imagePath'));
     }
 
     /**
@@ -70,7 +90,9 @@ class CostumersController extends Controller {
      */
     public function edit($id) {
         $costumer = $this->costumer->find($id);
+        $costumer->active = ($costumer->active == 1);
         $title = 'Editar cliente: ' . $costumer->name;
+        $costumer->image = !empty($costumer->image) ? $costumer->image : 'default.png';
         $imagePath = '/storage/costumer/' . $costumer->image;
         return view('costumers.form', compact('costumer', 'title', 'imagePath'));
     }
@@ -82,9 +104,9 @@ class CostumersController extends Controller {
      * @return type
      */
     public function update(Request $request, $id) {
-
         $costumer = $this->costumer->find($id);
         $dataForm = $request->except('_token');
+        $dataForm['active'] = isset($dataForm['active']) ? 1 : 0;
         if (isset($dataForm['image'])) {
             $imageUploadedInfo = $this->uploadImage($request, $id);
             $dataForm['image'] = $imageUploadedInfo['name'];
@@ -103,7 +125,11 @@ class CostumersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $costumer = $this->costumer->find($id);
+        $delete = $costumer->delete();
+        if ($delete) {
+            return redirect()->route('costumers.index');
+        }
     }
 
     /**
